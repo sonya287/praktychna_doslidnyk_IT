@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практична робота: Дослідник ІС</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      padding: 40px;
+      border: 1px solid var(--border);
+    }
+
+    header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 30px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    /* Student Info Block */
+    .student-info {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 16px;
+      background: var(--bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .input-group input {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s;
+      background: #ffffff;
+    }
+
+    .input-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Section Styling */
+    .section-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .instruction {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      background: #f1f5f9;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Task 1 Table */
+    .task-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .task-table th {
+      background: #f8fafc;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .task-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .task-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .term-tag {
+      font-weight: 600;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    select.type-select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-family: inherit;
+      font-size: 14px;
+      background-color: #ffffff;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select.type-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Step Workflow */
+    .workflow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex-grow: 1;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    textarea.step-input, textarea.text-answer {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 60px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    textarea.step-input:focus, textarea.text-answer:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Actions Header/Footer */
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 2px solid var(--border);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    /* Results summary alert */
+    .score-banner {
+      display: none;
+      background: var(--success-light);
+      border: 1px solid var(--success);
+      color: var(--success);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .actions-bar, .score-banner {
+        display: none !important;
+      }
+      input, select, textarea {
+        border: 1px solid #ccc !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="header-badge">
+        <i class="fa-solid fa-laptop-code"></i> Інформатика • 6 Клас
+      </div>
+      <h1>Практична робота: "Дослідник ІС"</h1>
+      <p class="subtitle">Тема: Поняття про інформаційну систему. Взаємодія апаратної та програмної складових.</p>
+    </header>
+
+    <!-- Student details -->
+    <div class="student-info">
+      <div class="input-group">
+        <label for="student-name">Прізвище та Ім'я учня/учениці</label>
+        <input type="text" id="student-name" placeholder="Введіть ваше прізвище та ім'я">
+      </div>
+      <div class="input-group">
+        <label for="student-class">Клас</label>
+        <input type="text" id="student-class" placeholder="6-А">
+      </div>
+      <div class="input-group">
+        <label for="work-date">Дата</label>
+        <input type="date" id="work-date">
+      </div>
+    </div>
+
+    <!-- Feedback Banner -->
+    <div id="scoreBanner" class="score-banner">
+      <i class="fa-solid fa-circle-check" style="font-size:24px;"></i>
+      <div id="scoreBannerText"></div>
+    </div>
+
+    <!-- TASK 1 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon"><i class="fa-solid fa-list-check"></i></div>
+        <h2 class="section-title">Завдання 1. Класифікація складників ІС</h2>
+      </div>
+      <p class="instruction">
+        Розподіліть наведені елементи інформаційної системи за складовими: <b>Hardware (Апаратне забезпечення)</b> або <b>Software (Програмне забезпечення)</b>.
+      </p>
+
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th style="width: 50%;">Елемент ІС</th>
+            <th style="width: 50%;">Тип складової (Оберіть зі списку)</th>
+          </tr>
+        </thead>
+        <tbody id="task1TableBody">
+          <!-- Rows will be populated dynamically by JS for interactive validation -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TASK 2 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <h2 class="section-title">Завдання 2. Взаємодія під час виконання завдання</h2>
+      </div>
+      <p class="instruction">
+        <b>Ситуація:</b> Учень хоче роздрукувати на принтері малюнок, який він створив у графічному редакторі Paint. Опишіть кроки взаємодії складових ІС.
+      </p>
+
+      <div class="workflow-steps">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Дія користувача (Введення команди)</div>
+            <textarea class="step-input" placeholder="Який пристрій введення та яку дію виконує користувач, щоб натиснути кнопку 'Друк'?"></textarea>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Робота програмного забезпечення (Software)</div>
+            <textarea class="step-input" placeholder="Що робить програма Paint та операційна система з файлом зображення?"></textarea>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Опрацювання процесором (Hardware)</div>
+            <textarea class="step-input" placeholder="Як процесор опрацьовує інформацію та куди її передає?"></textarea>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">Результат (Виведення)</div>
+            <textarea class="step-input" placeholder="Який апаратний пристрій виводить готовий результат і що є цим результатом?"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 3 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+        <h2 class="section-title">Завдання 3. Дослідження пристрою з життя</h2>
+      </div>
+      <p class="instruction">
+        Оберіть один із smart-пристроїв (наприклад: <i>Смартфон, Банкомат, Смарт-годинник або Робот-пилосос</i>) і вкажіть його складові:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="input-group">
+          <label for="chosen-device" style="font-size:14px;">Обраний пристрій</label>
+          <input type="text" id="chosen-device" placeholder="Наприклад: Смартфон">
+        </div>
+
+        <div class="input-group">
+          <label for="device-hardware" style="font-size:14px;">Приклади Hardware у цьому пристрої (мінімум 2)</label>
+          <textarea class="text-answer" id="device-hardware" placeholder="Наприклад: сенсорний екран, камера, акумулятор..."></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="device-software" style="font-size:14px;">Приклади Software у цьому пристрої (мінімум 2)</label>
+          <textarea class="text-answer" id="device-software" placeholder="Наприклад: ОС Android, додаток Viber, гра..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Footer -->
+    <div class="actions-bar">
+      <button class="btn btn-secondary" onclick="checkTask1()">
+        <i class="fa-solid fa-spell-check"></i> Перевірити Завдання 1
+      </button>
+      
+      <button class="btn btn-primary" onclick="window.print()">
+        <i class="fa-solid fa-print"></i> Зберегти / Друкувати у PDF
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Task 1 Data
+    const task1Items = [
+      { id: 1, name: "Оптична миша", type: "hardware", label: "Миша" },
+      { id: 2, name: "Операційна система Windows 11", type: "software", label: "Windows 11" },
+      { id: 3, name: "Графічний редактор (Paint / Canva)", type: "software", label: "Графічний редактор" },
+      { id: 4, name: "Процесор (CPU)", type: "hardware", label: "Процесор" },
+      { id: 5, name: "Сканер документний", type: "hardware", label: "Сканер" },
+      { id: 6, name: "Антивірусна програма", type: "software", label: "Антивірус" },
+      { id: 7, name: "Накопичувач SSD", type: "hardware", label: "SSD" },
+      { id: 8, name: "Веб-браузер (Google Chrome)", type: "software", label: "Браузер" }
+    ];
+
+    // Populate Task 1 Table
+    function initTask1() {
+      const tbody = document.getElementById('task1TableBody');
+      tbody.innerHTML = '';
+
+      task1Items.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <span class="term-tag">
+              <i class="fa-solid fa-cube" style="color:#64748b;"></i>
+              ${item.name}
+            </span>
+          </td>
+          <td>
+            <select class="type-select" id="select-${index}">
+              <option value="">-- Оберіть тип --</option>
+              <option value="hardware">Апаратне забезпечення (Hardware)</option>
+              <option value="software">Програмне забезпечення (Software)</option>
+            </select>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Set default date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('work-date').value = today;
+    }
+
+    // Interactive Check for Task 1
+    function checkTask1() {
+      let correct = 0;
+      let total = task1Items.length;
+
+      task1Items.forEach((item, index) => {
+        const select = document.getElementById(`select-${index}`);
+        if (select.value === item.type) {
+          correct++;
+          select.style.borderColor = '#059669';
+          select.style.backgroundColor = '#ecfdf5';
+        } else if (select.value !== "") {
+          select.style.borderColor = '#dc2626';
+          select.style.backgroundColor = '#fef2f2';
+        }
+      });
+
+      const banner = document.getElementById('scoreBanner');
+      const bannerText = document.getElementById('scoreBannerText');
+      banner.style.display = 'flex';
+
+      if (correct === total) {
+        bannerText.innerHTML = `<b>Чудово!</b> Всі ${total} елементів у Завданні 1 розподілено правильно!`;
+      } else {
+        bannerText.innerHTML = `<b>Результат перевірки Завдання 1:</b> Правильно ${correct} з ${total}. Перевірте виділені червоним елементи!`;
+      }
+    }
+
+    // Initialize page
+    window.onload = initTask1;
+  </script>
+</body>
+</html>
